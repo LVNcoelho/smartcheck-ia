@@ -6,7 +6,7 @@ from PIL import Image
 if "GEMINI_KEY" in st.secrets:
     API_KEY = st.secrets["GEMINI_KEY"].strip()
     genai.configure(api_key=API_KEY)
-    model = genai.GenerativeModel('gemini-1.5-flash-latest')
+model = genai.GenerativeModel('gemini-1.5-flash')
 else:
     st.error("⚠️ Erro: Chave de API não configurada nos Secrets do Streamlit.")
     st.stop()
