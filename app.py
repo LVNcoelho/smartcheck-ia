@@ -2,13 +2,15 @@ import streamlit as st
 import google.generativeai as genai
 from PIL import Image
 
-# MODO SEGURO: A chave será puxada das configurações do Streamlit, não do código
-try:
-    API_KEY = st.secrets["GEMINI_KEY"]
+# Configuração Segura da IA
+if "GEMINI_KEY" in st.secrets:
+    API_KEY = st.secrets["GEMINI_KEY"].strip()
     genai.configure(api_key=API_KEY)
-    # Mude para este nome exato:
-model = genai.GenerativeModel('gemini-1.5-flash-latest')
-    
+    model = genai.GenerativeModel('gemini-1.5-flash-latest')
+else:
+    st.error("⚠️ Erro: Chave de API não configurada nos Secrets do Streamlit.")
+    st.stop()
+
 st.set_page_config(page_title="SmartCheck IA", page_icon="🛒", layout="wide")
 
 # Estilo visual de Mercado (CSS Simples)
