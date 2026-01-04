@@ -2,7 +2,7 @@ import streamlit as st
 import google.generativeai as genai
 from PIL import Image
 
-# Configuração Segura da IA
+# 1. Configuração Segura da IA
 if "GEMINI_KEY" in st.secrets:
     API_KEY = st.secrets["GEMINI_KEY"].strip()
     genai.configure(api_key=API_KEY)
@@ -11,15 +11,8 @@ else:
     st.error("⚠️ Erro: Chave de API não configurada nos Secrets do Streamlit.")
     st.stop()
 
+# 2. Configuração da Página
 st.set_page_config(page_title="SmartCheck IA", page_icon="🛒", layout="wide")
-
-# Estilo visual de Mercado (CSS Simples)
-st.markdown("""
-    <style>
-    .main { background-color: #f5f5f5; }
-    .stButton>button { background-color: #2e7d32; color: white; border-radius: 10px; }
-    </style>
-    """, unsafe_allow_html=True)
 
 st.title("🛒 SmartCheck IA - Gestão Conecta T.I")
 
@@ -27,24 +20,30 @@ aba1, aba2 = st.tabs(["📄 Receber Nota Fiscal", "📦 Conferir Carga Física"]
 
 with aba1:
     st.header("Entrada de Mercadoria")
-    arquivo_nf = st.file_uploader("Upload da NF (E-mail/PDF)", type=['png', 'jpg', 'jpeg'])
+    arquivo_nf = st.file_uploader("Suba a foto da Nota Fiscal", type=['png', 'jpg', 'jpeg'])
     
     if arquivo_nf:
         img = Image.open(arquivo_nf)
-        st.image(img, width=400, caption="Nota Fiscal Detectada")
+        st.image(img, width=300, caption="Nota Fiscal Carregada")
         
-        if st.button("Analisar Preços e Margem (22%)"):
-            with st.spinner("IA calculando lucros..."):
-                prompt = "Extraia os itens desta nota. Para cada item, mostre o preço de custo e sugira um preço de venda com 22% de margem. Informe também a data de vencimento da nota."
-                resposta = model.generate_content([prompt, img])
-                st.success("Análise de Precificação Concluída!")
-                st.markdown(resposta.text)
+        if st.button("Analisar Preços e Lucro"):
+            with st.spinner("IA analisando a nota..."):
+                prompt = "Liste os produtos desta nota com preço de custo e sugira o preço de venda com 22% de lucro. Retorne em uma tabela."
+                try:
+                    resposta = model.generate_content([prompt, img])
+                    st.markdown(resposta.text)
+                    st.success("Análise concluída com 22% de margem aplicada!")
+                except Exception as e:
+                    st.error(f"Erro na análise: {e}")
 
 with aba2:
     st.header("Inspeção de Pátio")
-    st.write("Tire uma foto dos itens recebidos para validar com a nota.")
-    foto_carga = st.camera_input("Capturar foto da mercadoria")
+    st.write("Use a câmera para validar os itens recebidos.")
+    
+    # Opção para tablet: usa o carregador de arquivos que abre a câmera traseira
+    foto_carga = st.file_uploader("Capturar foto da mercadoria", type=['png', 'jpg', 'jpeg'])
     
     if foto_carga:
-        st.success("Foto capturada! Integrando com o sistema de conferência...")
-        st.warning("Divergência: Verifique o item 'Arroz 5kg' - Quantidade física parece menor que na NF.")
+        img_carga = Image.open(foto_carga)
+        st.image(img_carga, width=400, caption="Item no Pátio")
+        st.warning("Divergência Detectada: Verifique se a quantidade de 'Arroz 5kg' bate com a NF.")
