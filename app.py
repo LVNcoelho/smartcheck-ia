@@ -8,8 +8,7 @@ try:
     genai.configure(api_key=API_KEY)
     # Mude para este nome exato:
 model = genai.GenerativeModel('gemini-1.5-flash-latest')
-    st.error("⚠️ Erro: Chave de API não configurada nos Secrets do Streamlit.")
-
+    
 st.set_page_config(page_title="SmartCheck IA", page_icon="🛒", layout="wide")
 
 # Estilo visual de Mercado (CSS Simples)
