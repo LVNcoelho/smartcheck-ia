@@ -39,8 +39,6 @@ with aba1:
 with aba2:
     st.header("Inspeção de Pátio")
     st.write("Use a câmera para validar os itens recebidos.")
-    
-    # Opção para tablet: usa o carregador de arquivos que abre a câmera traseira
     foto_carga = st.file_uploader("Capturar foto da mercadoria", type=['png', 'jpg', 'jpeg'])
     
     if foto_carga:
