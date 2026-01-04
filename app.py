@@ -6,8 +6,8 @@ from PIL import Image
 try:
     API_KEY = st.secrets["GEMINI_KEY"]
     genai.configure(api_key=API_KEY)
-    model = genai.GenerativeModel('gemini-1.5-flash')
-except:
+    # Mude para este nome exato:
+model = genai.GenerativeModel('gemini-1.5-flash-latest')
     st.error("⚠️ Erro: Chave de API não configurada nos Secrets do Streamlit.")
 
 st.set_page_config(page_title="SmartCheck IA", page_icon="🛒", layout="wide")
