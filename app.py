@@ -7,7 +7,8 @@ if "GEMINI_KEY" in st.secrets:
     API_KEY = st.secrets["GEMINI_KEY"].strip()
     genai.configure(api_key=API_KEY)
     # Ajustado para evitar o erro 404
-    model = genai.GenerativeModel('models/gemini-1.5-flash')
+   # Mude para este nome técnico completo:
+model = genai.GenerativeModel('gemini-1.5-flash-latest')
 else:
     st.error("⚠️ Chave não encontrada nos Secrets!")
     st.stop()
