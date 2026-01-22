@@ -6,9 +6,10 @@ from PIL import Image
 if "GEMINI_KEY" in st.secrets:
     API_KEY = st.secrets["GEMINI_KEY"].strip()
     genai.configure(api_key=API_KEY)
-    # Este é o nome técnico exato que resolve o erro 404
-model = genai.GenerativeModel('gemini-1.5-flash')
+    # Esta linha abaixo precisa de 4 espaços na frente:
+    model = genai.GenerativeModel('gemini-1.5-flash')
 else:
+    st.error("⚠️ Chave não encontrada nos Secrets!")
      st.error("⚠️ Chave não encontrada nos Secrets!")
      st.stop()
 
