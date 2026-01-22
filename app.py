@@ -9,8 +9,8 @@ if "GEMINI_KEY" in st.secrets:
     # Este é o nome técnico exato que resolve o erro 404
 model = genai.GenerativeModel('gemini-1.5-flash')
 else:
-    st.error("⚠️ Chave não encontrada nos Secrets!")
-    st.stop()
+     st.error("⚠️ Chave não encontrada nos Secrets!")
+     st.stop()
 
 # 2. Configuração da Página
 st.set_page_config(page_title="SmartCheck IA", page_icon="🛒", layout="wide")
